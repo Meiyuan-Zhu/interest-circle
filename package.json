@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "@midwayjs/decorator": "^3.16.2",
+    "@midwayjs/info": "^3.16.6",
     "@midwayjs/koa": "^3.16.6",
     "@midwayjs/typeorm": "^3.16.5",
     "@midwayjs/validate": "^3.16.6",

@@ -1,19 +1,21 @@
 import { createApp, close, createHttpRequest } from '@midwayjs/mock';
 import { Framework } from '@midwayjs/koa';
-import { join } from 'path';
 
-describe('Home Tests', () => {
-  let app;
-  beforeAll(async () => {
-    app = await createApp<Framework>(join(__dirname, '../../src/config'));
-  });
+describe('test/controller/home.test.ts', () => {
 
-  afterAll(async () => {
+  it('should GET /', async () => {
+    // create app
+    const app = await createApp<Framework>();
+
+    // make request
+    const result = await createHttpRequest(app).get('/');
+
+    // use expect by jest
+    expect(result.status).toBe(200);
+    expect(result.text).toBe('Hello Midwayjs!');
+
+    // close app
     await close(app);
   });
 
-  it('should GET /', async () => {
-    const result = await createHttpRequest(app).get('/');
-    expect(result.status).toBe(200);
-  });
 });
