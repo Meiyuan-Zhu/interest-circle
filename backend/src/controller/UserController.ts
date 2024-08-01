@@ -1,22 +1,20 @@
-import { Provide, Controller, Post, Body, Inject } from '@midwayjs/core';
-import { Context } from 'koa';
-import { User } from '../models/User';
-import { Repository } from 'typeorm';
+import { Provide, Inject, Controller, Post, Body } from '@midwayjs/decorator';
+import { UserService } from '../service/user.service';
+import { RegisterDTO, LoginDTO } from '../dto/UserDTO';
 
 @Provide()
 @Controller('/api/users')
 export class UserController {
   @Inject()
-  ctx: Context;
-
-  @Inject()
-  userRepository: Repository<User>;
+  userService: UserService;
 
   @Post('/register')
-  async registerUser(@Body() body: any) {
-    const { username, password } = body;
-    const newUser = this.userRepository.create({ username, password });
-    await this.userRepository.save(newUser);
-    return { message: 'User registered successfully' };
+  async register(@Body() registerDTO: RegisterDTO) {
+    return this.userService.register(registerDTO);
+  }
+
+  @Post('/login')
+  async login(@Body() loginDTO: LoginDTO) {
+    return this.userService.login(loginDTO);
   }
 }
