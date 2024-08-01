@@ -5,6 +5,7 @@ import { MidwayConfig } from '@midwayjs/core';
 dotenv.config();
 
 export default {
+  baseDir: join(__dirname, '../../'),
   keys: '1234567',
   koa: {
     port: 7001,
