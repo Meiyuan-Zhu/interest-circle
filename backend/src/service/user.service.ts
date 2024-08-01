@@ -43,4 +43,8 @@ export class UserService {
       }
     }
   } 
+
+  async getUser(uid: number) {
+    return await this.userModel.findOne({ where: { id: uid } });
+  }
 }
