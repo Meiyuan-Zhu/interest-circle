@@ -14,7 +14,7 @@ export class UserController {
 
   @Post('/register')
   async registerUser(@Body() body: any) {
-    const { username, email, password } = body;
+    const { username, password } = body;
     const newUser = this.userRepository.create({ username, password });
     await this.userRepository.save(newUser);
     return { message: 'User registered successfully' };
