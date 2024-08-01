@@ -1,11 +1,10 @@
 import 'reflect-metadata';
 import { createApp } from '@midwayjs/mock';
-import { Framework } from '@midwayjs/koa';
 import { join } from 'path';
 import { createConnection } from 'typeorm';
-import ormConfig from './config/config.default';
 
 (async () => {
+  
   await createConnection({
     type: 'sqlite',
     database: join(__dirname, '../../database.sqlite'),

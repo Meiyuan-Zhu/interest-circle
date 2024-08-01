@@ -16,7 +16,11 @@
     "forceConsistentCasingInFileNames": true,
     "typeRoots": [ "./typings", "./node_modules/@types"],
     "outDir": "dist",
-    "rootDir": "src"
+    "rootDir": "src",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipDefaultLibCheck": true,
+    "types": ["node","jest"]
   },
   "exclude": [
     "*.js",
@@ -24,5 +28,6 @@
     "dist",
     "node_modules",
     "test"
-  ]
+  ],
+  "inclue": ["src/**/*.ts","text/**/*.ts"]
 }
