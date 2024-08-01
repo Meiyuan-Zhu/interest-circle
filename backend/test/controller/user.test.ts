@@ -4,10 +4,18 @@ import * as assert from 'assert';
 import { after } from 'node:test';
 
 describe('UserController', ()=> {
+    let app;
+    beforeAll(async () => {
+        // create app
+        app = await createApp<Framework>('../../src');
+    });
+
+    afterAll(async () => {
+        // close app
+        await close(app);
+    });
 
     it('should POST /api/users/register', async () => {
-        const app = await createApp<Framework>();
-
         const result = await createHttpRequest(app).post('/api/users/register').send({
             username: 'test',
             password: '123456',
@@ -18,8 +26,6 @@ describe('UserController', ()=> {
     })
 
     it('should POST /api/users/login',async () => {
-        const app = await createApp<Framework>();
-
         await createHttpRequest(app)
             .post('/api/users/register')
             .send({username: 'test', password: '123456'});
