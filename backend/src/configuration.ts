@@ -1,12 +1,12 @@
 import { Configuration, App } from '@midwayjs/decorator';
 import * as koa from '@midwayjs/koa';
-import * as orm from '@midwayjs/orm';
+import * as typegoose from '@midwayjs/typegoose'
 import { join } from 'path';
 
 @Configuration({
   imports: [
     koa,
-    orm,
+    typegoose,
     require('@midwayjs/decorator'),
   ],
   importConfigs: [join(__dirname, './config')],

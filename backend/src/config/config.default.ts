@@ -1,6 +1,7 @@
 import { MidwayConfig } from '@midwayjs/core';
 import { join } from 'path';
 import * as dotenv from 'dotenv';
+import { User } from '../entity/user';
 
 dotenv.config({ path: join(__dirname,'../../.env')})
 
@@ -12,12 +13,17 @@ export default {
   jwt: {
     secret: process.env.JWT_SECRET,
   },
-  typeorm: {
-    type: 'sqlite',
-    database: join(__dirname, '../../database/database.sqlite'),
-    synchronize: true,
-    logging: false,
-    entities: [join(__dirname, '../models/*.ts')],
+  mongoose: {
+    dataSource: {
+      default:{
+        uri:'mongodb://localhost:27017/test',
+        options: {
+          userNewUrlParser: true,
+          useUnifiedTopology: true,
+        },
+        entities: [User],
+      }
+    }
   },
   midwayLogger: {
     default: {
