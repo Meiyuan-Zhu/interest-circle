@@ -1,4 +1,4 @@
-import { Controller, Post, Provide, Body, Inject,Get, Query } from '@midwayjs/decorator';
+import { Controller, Post, Provide, Body, Inject} from '@midwayjs/decorator';
 import { UserService } from '../service/user.service';;
 import { RegisterDTO, LoginDTO} from '../dto/user.dto';
 
@@ -17,11 +17,5 @@ export class UserController {
     async login(@Body() loginDTO: LoginDTO) {
         return this.userService.login(loginDTO);
     }
-
-    @Get('/get_user')
-    async getUser(@Query('uid') uid:number) {
-        const user = await this.userService.getUser(uid);
-        return { success: true, message: 'OK', data: user };
-  }
 
 }

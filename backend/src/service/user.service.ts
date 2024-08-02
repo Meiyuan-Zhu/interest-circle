@@ -44,7 +44,7 @@ export class UserService {
     }
   } 
 
-  async getUser(uid: number) {
-    return await this.userModel.findOne({ where: { id: uid } });
+  async getUser(uid: number): Promise<User | null> {
+    return this.userModel.findOne({ where: { id: uid } });
   }
 }

@@ -1,4 +1,4 @@
-import { createApp, close, createHttpRequest } from '@midwayjs/mock';
+import { createApp, createHttpRequest } from '@midwayjs/mock';
 import { Framework } from '@midwayjs/koa';
 import * as assert from 'assert';
 import { afterAll, beforeAll, describe, it } from '@jest/globals';
@@ -39,13 +39,4 @@ describe('UserController', ()=> {
         assert(restult.status === 200);
         assert(restult.body.token);
     });
-
-    it('should GET /api/users/get_user', async () => {
-        const result = await createHttpRequest(app)
-          .get('/api/users/get_user')
-          .query({ uid: 1 });
-    
-        expect(result.status).toBe(200);
-        expect(result.body.data).toBeDefined();
-      });
 });
