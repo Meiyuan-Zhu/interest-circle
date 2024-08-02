@@ -17,4 +17,10 @@ export class UserController {
     async login(@Body() loginDTO: LoginDTO) {
         return this.userService.login(loginDTO);
     }
+
+    @Post('/get_user')
+    async getUser(@Body() body: { uid: number }) {
+        return this.userService.getUser(body.uid);
+    }
+
 }

@@ -1,11 +1,12 @@
 import { createApp, close, createHttpRequest } from '@midwayjs/mock';
 import { Framework } from '@midwayjs/koa';
 import * as assert from 'assert';
-import { afterAll, beforeAll, describe, it, expect } from '@jest/globals';
+import { afterAll, beforeAll, describe, it } from '@jest/globals';
 
 
 describe('UserController', ()=> {
     let app;
+
     beforeAll(async () => {
         // create app
         app = await createApp<Framework>('../../src');
@@ -38,4 +39,13 @@ describe('UserController', ()=> {
         assert(restult.status === 200);
         assert(restult.body.token);
     });
+
+    it('should POST /api/users/get_user', async () => {
+        const result = await createHttpRequest(app)
+          .post('/api/users/get_user')
+          .send({ uid: 1 });
+    
+        expect(result.status).toBe(200);
+        expect(result.body.username).toBeDefined();
+      });
 });
