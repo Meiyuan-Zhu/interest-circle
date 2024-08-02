@@ -9,12 +9,12 @@ describe('UserController', ()=> {
 
     beforeAll(async () => {
         // create app
-        app = await createApp<Framework>('../../src');
+        app = await createApp<Framework>();
     });
 
     afterAll(async () => {
         // close app
-        await close(app);
+        await app.close;
     });
 
     it('should POST /api/users/register', async () => {
@@ -40,12 +40,12 @@ describe('UserController', ()=> {
         assert(restult.body.token);
     });
 
-    it('should POST /api/users/get_user', async () => {
+    it('should GET /api/users/get_user', async () => {
         const result = await createHttpRequest(app)
-          .post('/api/users/get_user')
-          .send({ uid: 1 });
+          .get('/api/users/get_user')
+          .query({ uid: 1 });
     
         expect(result.status).toBe(200);
-        expect(result.body.username).toBeDefined();
+        expect(result.body.data).toBeDefined();
       });
 });
