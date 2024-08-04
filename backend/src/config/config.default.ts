@@ -1,6 +1,5 @@
 import { MidwayConfig } from '@midwayjs/core';
 import { join } from 'path';
-import { User } from '../entity/user';
 import * as dotenv from 'dotenv';
 
 dotenv.config({ path: join(__dirname,'../../.env')})
@@ -26,7 +25,7 @@ export default {
         synchronize: true,
         logging: false,
 
-        entities: [User],
+        entities: [join(__dirname,'../entities/*.ts')],
 
       }
     }
