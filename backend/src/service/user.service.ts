@@ -1,37 +1,44 @@
 import { Provide } from '@midwayjs/core';
-import { InjectEntityModel } from '@midwayjs/typegoose';
-import { ReturnModelType } from '@typegoose/typegoose';
+import { InjectEntityModel } from '@midwayjs/typeorm';
+import { Repository } from 'typeorm';
 import { User } from '../entity/user';
 import { IUserOptions } from '../interface';
-import * as jwt from 'jsonwebtoken';
-import { Config } from "@midwayjs/core";
-
-
+import { RegisterDTO, LoginDTO } from '../dto/user.dto';
 
 @Provide()
 export class UserService {
 
   @InjectEntityModel(User)
-  userModel: ReturnModelType<typeof User>;
+  userModel: Repository<User>;
 
-  @Config('jwt.secret')
-  secret: string;
+  // save data
+  async register(registerDTO: RegisterDTO) {
+    const { username, password } = registerDTO;
+    const existUser = await this.userModel.findOne({ where: { username } });
+    if (existUser) {
+      throw new Error('用户已存在');
+    } else {
+      const user = new User();
+      user.username = username;
+      user.password = password;
+      await this.userModel.save(user);
+      return '注册成功';
+    }
 
-  async register(username: string, password: string){
-    return await this.userModel.create({ username, password});
   }
 
-  async login(username: string, password: string) {
-    const user = await this.userModel.findOne({username}).exec();
+  // query data
+  async login(loginDTO: LoginDTO) {
+    const { username, password } = loginDTO;
+    const user = await this.userModel.findOne({ where: { username } });
     if (!user) {
       throw new Error('用户不存在');
     } else {
-      const isMatch = (password === user.password); 
+      const isMatch = password === user.password; 
       if (!isMatch) {
         throw new Error('密码错误');
       } else {
-        const token = jwt.sign({ uid: user.id, username: user.username }, this.secret, {expiresIn: '2h'}); 
-        return { token };
+        return user ;
       }
     }
   }

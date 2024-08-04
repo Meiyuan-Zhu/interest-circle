@@ -1,17 +1,17 @@
-import { Configuration, App } from '@midwayjs/decorator';
-import * as koa from '@midwayjs/koa';
-import * as typegoose from '@midwayjs/typegoose'
+import { Configuration } from '@midwayjs/core';
 import { join } from 'path';
+import * as orm from '@midwayjs/typeorm';
+
 
 @Configuration({
   imports: [
-    koa,
-    typegoose,
-    require('@midwayjs/decorator'),
+    orm,
   ],
-  importConfigs: [join(__dirname, './config')],
+  importConfigs: [
+    join(__dirname, './config')
+  ]
 })
-export class ContainerConfiguration {
-  @App()
-  app: koa.Application;
+
+export class MainConfiguration {
+
 }

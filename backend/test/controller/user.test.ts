@@ -27,7 +27,7 @@ describe('UserController', () => {
       .send({ username: 'testuser', password: 'testpassword' });
 
     expect(result.status).toBe(200);
-    expect(result.body).toHaveProperty('token');
+    expect(result.body).toHaveProperty('user');
   });
 
 });

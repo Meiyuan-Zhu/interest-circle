@@ -1,10 +1,14 @@
-import { prop } from '@typegoose/typegoose';
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
-
+@Entity()
 export class User {
-  @prop()
+  @PrimaryGeneratedColumn()
+  id: number;
+
+  @Column()
   username: string;
 
-  @prop()
+  @Column()
   password: string;
+  
 }

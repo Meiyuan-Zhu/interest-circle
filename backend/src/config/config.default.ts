@@ -1,7 +1,7 @@
 import { MidwayConfig } from '@midwayjs/core';
 import { join } from 'path';
-import * as dotenv from 'dotenv';
 import { User } from '../entity/user';
+import * as dotenv from 'dotenv';
 
 dotenv.config({ path: join(__dirname,'../../.env')})
 
@@ -13,44 +13,22 @@ export default {
   jwt: {
     secret: process.env.JWT_SECRET,
   },
-  mongoose: {
+  typeorm: {
     dataSource: {
-      default:{
-        uri:'mongodb://localhost:27017/test',
-        options: {
-          userNewUrlParser: true,
-          useUnifiedTopology: true,
-        },
+      default: {
+        type: 'mysql',
+        host: 'localhost',
+        port: 3306,
+        username: 'root',
+        password: 'ZHzh007008009',
+        database: 'interestCircle',
+        
+        synchronize: true,
+        logging: false,
+
         entities: [User],
+
       }
     }
-  },
-  midwayLogger: {
-    default: {
-      enableFile: true,
-      fileLogName: 'midway-core.log',
-      format: info => {
-        return `${info.timestamp} ${info.level} ${info.message}`;
-      },
-      options: {
-        maxSize: '10m',
-        maxFiles: '10d',
-        disableSymlink: true, // 禁用符号链接
-      },
-    },
-    clients: {
-      commonErrorLogger: {
-        enableFile: true,
-        fileLogName: 'common-error.log',
-        format: info => {
-          return `${info.timestamp} ${info.level} ${info.message}`;
-        },
-        options: {
-          maxSize: '10m',
-          maxFiles: '10d',
-          disableSymlink: true, // 禁用符号链接
-        },
-      },
-    },
-  },
+  }
 } as MidwayConfig;
