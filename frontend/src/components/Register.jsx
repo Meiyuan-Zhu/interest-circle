@@ -4,23 +4,33 @@ import './Register.css';
 const Register = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const history = useHistory();
 
-  const handleRegister = async (event) => {
-    event.preventDefault();
-    const response = await fetch('/api/users/register', {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    fetch('/api/users/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ username, password }),
-    });
-    const data = await response.json();
-    alert(data.message);
-  };
+    })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          history.push('/interest-circles');
+        } else {
+          alert(data.message);
+        }
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }
 
   return (
     <div className="register-container">
-      <form onSubmit={handleRegister} className="register-form">
+      <form onSubmit={handleSubmit} className="register-form">
         <h2>Sign Up</h2>
         <div className="form-group">
           <label>Username</label>
@@ -36,6 +46,7 @@ const Register = () => {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
         </div>
         <button className = "register-button" type="submit">Register</button>

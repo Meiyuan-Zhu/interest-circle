@@ -20,4 +20,8 @@ export class InterestCircleService {
         return await this.interestCircleModel.save(interestCircle);
 
     }
+
+    async getAllInterestCircles() {
+        return await this.interestCircleModel.find();
+    }
 }
