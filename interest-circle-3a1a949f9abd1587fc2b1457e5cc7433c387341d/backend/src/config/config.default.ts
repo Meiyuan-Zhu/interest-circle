@@ -5,19 +5,15 @@ import * as dotenv from 'dotenv';
 dotenv.config({ path: join(__dirname,'../../.env')})
 
 export default {
-  keys: 'O0vyCN9yemfxobhZkBtPM/HfTM6y6Mxazs8vTzhbuE8=',
+  keys: '0b8ed91cc8ebe6269222c41ec101cd6ab1109228f32b71901ca7256684ba2288',
   koa: {
     port: 7001,
   },
   jwt: {
     secret: process.env.JWT_SECRET,
   },
-  typeorm: {
-    type: "sqlite",
-    database: join(__dirname, '../../database/sqlite'),
-    synchronize: true,
-    logging:false,
-    entities: [join(__dirname, '../models/*.ts')],
-
-  }
+  mongoose: {
+    url: 'mongodb://localhost:27017/interest-circle',
+  },
+  
 } as MidwayConfig;
