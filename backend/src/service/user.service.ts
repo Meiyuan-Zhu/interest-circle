@@ -2,7 +2,6 @@ import { Provide } from '@midwayjs/core';
 import { InjectEntityModel } from '@midwayjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../entity/user';
-import { IUserOptions } from '../interface';
 import { RegisterDTO, LoginDTO } from '../dto/user.dto';
 
 @Provide()
@@ -40,15 +39,6 @@ export class UserService {
       } else {
         return user ;
       }
-    }
-  }
-  
-  async getUser(options: IUserOptions) {
-    return {
-      uid: options.uid,
-      username: 'test',
-      password: 'test',
-      email:'xxx.xxx@xxx.com'
     }
   }
 }

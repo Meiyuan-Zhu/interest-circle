@@ -10,13 +10,12 @@ export class InterestCircleService {
     interestCircleModel: Repository<InterestCircle>;
 
     async createInterestCircle(createInterestCircleDto: CreateInterestCircleDto) {
-        const {name, description, creator} = createInterestCircleDto;
+        const {name, description, createdBy} = createInterestCircleDto;
         const interestCircle = new InterestCircle();
         interestCircle.name = name;
         interestCircle.description = description;
-        interestCircle.createdBy = creator;
+        interestCircle.createdBy = createdBy;
         interestCircle.createdAt = new Date();
-        interestCircle.updatedAt = new Date();
         return await this.interestCircleModel.save(interestCircle);
 
     }
