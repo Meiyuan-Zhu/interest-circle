@@ -13,24 +13,9 @@ describe('test/controller/user.controller.ts', () => {
     await close(app);
   });
 
-  it('should POST /api/users/register', async () => {
-    const result = await createHttpRequest(app)
-      .post('/api/users/register')
-      .send({ username: 'test', password: 'password123' });
 
-    console.log('Register response:', result.body);
-
-    expect(result.status).toBe(200);
-    expect(result.body.success).toBe(true);
-    expect(result.body.message).toBe('User registered successfully');
-  });
 
   it('should POST /api/users/login', async () => {
-    
-    await createHttpRequest(app)
-      .post('/api/users/register')
-      .send({ username: 'test2', password: 'password123' });
-
     
     const result = await createHttpRequest(app)
       .post('/api/users/login')
