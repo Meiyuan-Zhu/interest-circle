@@ -1,14 +1,18 @@
-import { Provide } from '@midwayjs/core';
+import { Inject, Provide } from '@midwayjs/core';
 import { InjectEntityModel } from '@midwayjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from '../entity/user';
 import { RegisterDTO, LoginDTO } from '../dto/user.dto';
+import { JwtService } from '@midwayjs/jwt';
 
 @Provide()
 export class UserService {
 
   @InjectEntityModel(User)
   userModel: Repository<User>;
+
+  @Inject()
+  jwtService: JwtService;
 
   // save data
   async register(registerDTO: RegisterDTO) {
@@ -37,8 +41,14 @@ export class UserService {
       if (!isMatch) {
         throw new Error('密码错误');
       } else {
-        return user ;
+        const token = await this.generateToken(user);
+        return {user, token} ;
       }
     }
+  }
+
+  async generateToken(user: User) {
+    const payload = {username: user.username, sub: user.id};
+    return this.jwtService.sign(payload);
   }
 }
