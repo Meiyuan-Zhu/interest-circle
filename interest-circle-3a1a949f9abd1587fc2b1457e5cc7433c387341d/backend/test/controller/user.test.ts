@@ -16,7 +16,9 @@ describe('test/controller/user.controller.ts', () => {
   it('should POST /api/users/register', async () => {
     const result = await createHttpRequest(app)
       .post('/api/users/register')
-      .send({ username: 'testuser', password: 'password123' });
+      .send({ username: 'test', password: 'password123' });
+
+    console.log('Register response:', result.body);
 
     expect(result.status).toBe(200);
     expect(result.body.success).toBe(true);
@@ -24,13 +26,17 @@ describe('test/controller/user.controller.ts', () => {
   });
 
   it('should POST /api/users/login', async () => {
+    
     await createHttpRequest(app)
       .post('/api/users/register')
-      .send({ username: 'testuser', password: 'password123' });
+      .send({ username: 'test2', password: 'password123' });
 
+    
     const result = await createHttpRequest(app)
       .post('/api/users/login')
-      .send({ username: 'testuser', password: 'password123' });
+      .send({ username: 'test2', password: 'password123' });
+
+    console.log('Login response:', result.body);
 
     expect(result.status).toBe(200);
     expect(result.body.success).toBe(true);
