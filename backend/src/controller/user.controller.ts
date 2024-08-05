@@ -1,12 +1,16 @@
 import { Provide, Controller, Post, Body, Inject } from '@midwayjs/decorator';
 import { UserService } from '../service/user.service';
 import { RegisterDTO, LoginDTO } from '../dto/user.dto';
+import { Context } from '@midwayjs/koa';
 
 @Provide()
 @Controller('/api/users')
 export class UserController {
   @Inject()
   userService: UserService;
+
+  @Inject()
+  ctx: Context;
 
   @Post('/register')
   async register(@Body() body: RegisterDTO): Promise<any> {

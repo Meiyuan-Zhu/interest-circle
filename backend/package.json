@@ -7,7 +7,6 @@
     "@midwayjs/bootstrap": "^3.12.0",
     "@midwayjs/core": "^3.16.2",
     "@midwayjs/decorator": "^3.16.2",
-    "@midwayjs/info": "^3.12.0",
     "@midwayjs/koa": "^3.16.8",
     "@midwayjs/logger": "^3.1.0",
     "@midwayjs/mock": "^3.16.6",
@@ -20,7 +19,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.5.2",
     "mysql": "^2.18.1",
-    "reflect-metadata": "^0.1.13",
+    "mysql2": "^3.11.0",
+    "reflect-metadata": "^0.1.14",
     "typeorm": "^0.3.20"
   },
   "devDependencies": {
