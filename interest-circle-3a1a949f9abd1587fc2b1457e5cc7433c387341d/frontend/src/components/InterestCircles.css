@@ -1,0 +1,144 @@
+
+
+.interest-circles-container {
+    background-image: url("../assets/interestCirclesBackground.jpeg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    height: 100vh;
+    width: 100%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+  
+  
+  .input-group {
+    margin-bottom: 20px;
+  }
+  
+  input[type="text"], input[type="file"] {
+    display: block;
+    margin: 10px 0;
+    width: 100%;
+    padding: 8px 0 8px 8px;
+    border-radius: 5px;
+  }
+  
+.search-button {
+    background-color: #4a6de2;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-size: 1;
+  }
+
+.search-button:hover {
+    background-color: #4a6de2b9
+  }
+
+.add-button {
+    background-color: #d26ce1;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-bottom: 40px;
+}
+
+.add-button:hover {
+    background-color: #d16ce1c9
+}
+  
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  li {
+    border: 1px solid #ccc;
+    margin: 10px 0;
+    padding: 10px;
+  }
+  
+  img {
+    max-width: 100px;
+    display: block;
+    margin-top: 10px;
+  }
+  
+  .modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    right: auto;
+    bottom: auto;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+    background: hsl(300, 66%, 93%);
+    padding: 30px;
+    border-radius: 4px;
+    max-width: 500px;
+    width: 100%;
+    text-align: center;
+  }
+  
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.75);
+  }
+  
+  @keyframes float {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+  }
+
+  .title {
+    text-align: center;
+    animation: float 5s ease-in-out infinite;
+    font-size: 4rem;
+    font-weight: bold;
+    font-family: 'Open Sans';
+  }
+
+  .add-title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.5rem;
+    padding-bottom: 10px;
+    font-family: 'Open Sans';
+  }
+
+
+  .submit-button {
+    background-color: #c18ef1;
+    padding: 10px;
+    color: white;
+    margin:20px;
+    border-radius: 5px;
+
+  }
+
+  .submit-button:hover {
+    background-color: hsla(271, 78%, 75%, 0.538);
+  }

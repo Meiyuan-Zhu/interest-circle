@@ -1,20 +1,25 @@
-
+import React, { useState } from 'react';
 import './Register.css';
-import axios from 'axios';
 import { useForm } from 'react-hook-form';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom'; 
 
 const Register = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate(); 
 
   const onSubmit = async (data) => {
     try {
       const response = await axios.post('/api/users/register', data);
       if (response.data.success) {
-        console.log('Registration successful',response.data.message);
+        console.log('Registration successful', response.data.message);
+        localStorage.setItem('username', data.username);
+        navigate('/interest-circles'); 
       } else {
-        console.log('Registration failed',response.data.message);
+        console.log('Registration failed', response.data.message);
       }
-
     } catch (error) {
       console.error('Error registering:', error);
     }
@@ -28,19 +33,19 @@ const Register = () => {
           <label>Username</label>
           <input
             type="text"
-            {...register('username', { required: true })}
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
           />
-          {errors.username && <span>This field is required</span>}
         </div>
         <div className="form-group">
           <label>Password</label>
           <input
             type="password"
-            {...register('password', { required: true })}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
-          {errors.password && <span>This field is required</span>}
         </div>
-        <button className = "register-button" type="submit">Register</button>
+        <button className="register-button" type="submit">Register</button>
       </form>
       <div className="background-image"></div>
     </div>
