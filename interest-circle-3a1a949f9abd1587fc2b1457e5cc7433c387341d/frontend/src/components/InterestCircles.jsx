@@ -3,29 +3,26 @@ import axios from 'axios';
 import Modal from 'react-modal';
 import './InterestCircles.css';
 
-Modal.setAppElement('#root');
-
-const InterestCircles = () => {
+const InterestCircles = ({ username }) => {
   const [circles, setCircles] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [newCircleName, setNewCircleName] = useState('');
   const [newCircleDescription, setNewCircleDescription] = useState('');
   const [newCircleImage, setNewCircleImage] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [username, setUsername] = useState('');
 
   useEffect(() => {
     fetchCircles();
-    setUsername(localStorage.getItem('username') || 'User');
   }, []);
 
   const fetchCircles = async () => {
     try {
       const response = await axios.get('/api/circles');
+      console.log('Fetched circles:', response.data);
       if (Array.isArray(response.data)) {
         setCircles(response.data);
       } else {
-        console.error('Error: response.data is not an array', response.data);
+        console.error('Fetched data is not an array', response.data);
       }
     } catch (error) {
       console.error('Error fetching circles:', error);
@@ -33,26 +30,24 @@ const InterestCircles = () => {
   };
 
   const addCircle = async () => {
-    try {
-      const formData = new FormData();
-      formData.append('name', newCircleName);
-      formData.append('description', newCircleDescription);
-      formData.append('createdBy', username); 
-      formData.append('createdAt', new Date().toISOString());
+    const formData = new FormData();
+    formData.append('name', newCircleName);
+    formData.append('description', newCircleDescription);
+    formData.append('createdBy', username); // Use the username prop here
+    formData.append('createdAt', new Date().toISOString());
+    if (newCircleImage) {
       formData.append('image', newCircleImage);
+    }
 
+    try {
       const response = await axios.post('/api/circles', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+          'Content-Type': 'multipart/form-data',
+        },
       });
-
       if (response.data.success) {
         fetchCircles();
-        setNewCircleName('');
-        setNewCircleDescription('');
-        setNewCircleImage(null);
-        setModalIsOpen(false); 
+        closeModal();
       }
     } catch (error) {
       console.error('Error adding circle:', error);
@@ -65,11 +60,19 @@ const InterestCircles = () => {
       if (Array.isArray(response.data)) {
         setCircles(response.data);
       } else {
-        console.error('Error: response.data is not an array', response.data);
+        console.error('Search result is not an array', response.data);
       }
     } catch (error) {
-      console.error('Error searching circles:', error); 
+      console.error('Error searching circles:', error);
     }
+  };
+
+  const openModal = () => setModalIsOpen(true);
+  const closeModal = () => {
+    setModalIsOpen(false);
+    setNewCircleName('');
+    setNewCircleDescription('');
+    setNewCircleImage(null);
   };
 
   return (

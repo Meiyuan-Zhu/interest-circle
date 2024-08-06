@@ -12,6 +12,13 @@ export default {
   jwt: {
     secret: process.env.JWT_SECRET,
   },
+  upload: {
+    mode: 'file',
+    fileSize: '10mb',
+    whitelist: null,
+    tmpdir: join(__dirname, '../../public/uploads/tmp'),
+    cleanTmpdir: true,
+  },
   mongoose: {
     url: 'mongodb://localhost:27017/interest-circle',
   },
