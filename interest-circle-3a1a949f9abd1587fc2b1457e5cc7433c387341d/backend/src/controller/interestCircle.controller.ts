@@ -1,4 +1,4 @@
-import { Inject, Controller, Post, Get, Query, Fields, Config } from '@midwayjs/decorator';
+import { Inject, Controller, Post, Get, Query, Fields, Config, Param } from '@midwayjs/decorator';
 import { Context } from '@midwayjs/koa';
 import { InterestCircleService } from '../service/interestCircle.service';
 import { InterestCircleModel } from '../model/interestCircle.model';
@@ -48,11 +48,33 @@ export class InterestCircleController {
       this.ctx.body = { success: false, message: 'Error fetching interest circles' };
     }
   }
-  
+
   @Get('/search')
   async searchInterestCircles(@Query('term') term: string) {
     const circles = await this.interestCircleService.getInterestCircles(term);
     this.ctx.body = circles;
+  }
+
+  @Get('/:circleId')
+  async getCircleDetails(@Param('circleId') circleId: string) {
+    try {
+      const circle = await this.interestCircleService.getCircleById(circleId);
+      this.ctx.body = circle;
+    } catch (error) {
+      console.error('Error fetching circle details:',error);
+      this.ctx.body = {success: false, message: 'Error fetching circle details'};
+    }
+  }
+
+  @Get('/circleId/posts')
+  async getCirclePosts(@Param('circleId') circleId: string) {
+    try {
+      const posts = await this.interestCircleService.getCirclePosts(circleId);
+      this.ctx.body = posts;
+    } catch (error) {
+      console.error('Error fetching circle posts:',error);
+      this.ctx.body = {success: false, message: 'Error fetching circle posts'};
+    }
   }
 
     

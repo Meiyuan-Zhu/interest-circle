@@ -4,6 +4,7 @@ import Home from './components/Home';
 import Register from './components/Register';
 import Login from './components/Login';
 import InterestCircles from './components/InterestCircles'; 
+import CirclePage from './components/CirclePage';
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/home" element={<Home />} />
         <Route path="/interest-circles" element={<InterestCircles />} /> 
+        <Route path="/circle/:circleId" element={<CirclePage />} />
       </Routes>
     </Router>
   );

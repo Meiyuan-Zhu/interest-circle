@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Modal from 'react-modal';
 import './InterestCircles.css';
+import { useNavigate } from 'react-router-dom';
 
 Modal.setAppElement('#root');
 const InterestCircles = () => {
@@ -13,6 +14,7 @@ const InterestCircles = () => {
   const username = localStorage.getItem('username');
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchCircles();
@@ -89,6 +91,10 @@ const InterestCircles = () => {
     }
   }
 
+  const handleCardClick = (circleId) => {
+    navigate(`/circle/${circleId}`);
+  };
+
   return (
     <div className="interest-circles-container">
       <h2 className="title">Hi {username}, welcome to Interest Circles!</h2>
@@ -105,7 +111,7 @@ const InterestCircles = () => {
       </div>
       <div className="circles-list">
         {circles.map((circle) => (
-          <div className="circle-card" key={circle._id}>
+          <div className="circle-card" key={circle._id} onClick={() => handleCardClick(circle._id)}>
             <div className="circle-info">
               <h3 className="circle-name">{circle.name}</h3>
               <p className="circle-description">{circle.description}</p>
@@ -115,9 +121,9 @@ const InterestCircles = () => {
         ))}
       </div>
       <div className="pagination">
-        <button onClick={goToPreviousPage} disabled={page === 1} className='previous-button'>⬅</button>
+        <button onClick={goToPreviousPage} disabled={page === 1} className='previous-button'>👈</button>
         <span className='page-number'>Page {page} of {totalPages}</span>
-        <button onClick={goToNextPage} disabled={page === totalPages} className='next-button'>➡️</button>
+        <button onClick={goToNextPage} disabled={page === totalPages} className='next-button'>👉</button>
       </div>
 
       <Modal

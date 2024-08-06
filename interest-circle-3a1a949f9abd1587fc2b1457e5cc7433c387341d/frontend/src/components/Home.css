@@ -1,3 +1,10 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  
+}
+
 .home-container {
   position: relative;
   min-height: 100vh;
@@ -30,8 +37,8 @@
   padding: 0;
   text-align: center;
   font-weight: 600;
-  font-size: 4rem;
-  margin-top: 6.5rem;
+  font-size: 2rem;
+  margin-top: 3rem;
   animation: float 5s ease-in-out infinite;
   font-family: 'Open Sans';
 }

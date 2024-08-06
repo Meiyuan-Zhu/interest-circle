@@ -1,12 +1,11 @@
 
-
 .interest-circles-container {
     background-image: url("../assets/interestCirclesBackground.jpeg");
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
-    height: 100vh;
+    min-height: 100vh;
     width: 100%;
     padding: 20px;
     display: flex;
@@ -14,6 +13,7 @@
     justify-content: center;
     align-items: center;
     text-align: center;
+    margin: 0;
   }
   
   
@@ -27,6 +27,7 @@
     width: 100%;
     padding: 8px 0 8px 8px;
     border-radius: 5px;
+    border: 0;
   }
 
 .search-button {
@@ -37,7 +38,7 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
-    font-size: 1;
+    font-size: 1rem;
   }
 
 .search-button:hover {
@@ -53,6 +54,7 @@
     cursor: pointer;
     transition: background-color 0.3s;
     margin-bottom: 40px;
+    font-size: 1rem;
 }
 
 .add-button:hover {
@@ -140,6 +142,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     overflow: hidden;
     width: 300px;
+    cursor: pointer;
   }
 
   
