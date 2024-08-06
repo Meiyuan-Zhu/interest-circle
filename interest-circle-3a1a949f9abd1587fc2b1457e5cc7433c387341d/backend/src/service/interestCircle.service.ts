@@ -1,6 +1,5 @@
 import { Provide } from '@midwayjs/core';
 import { InterestCircle, InterestCircleModel } from '../model/interestCircle.model';
-import { Post, PostModel } from '../model/post.model';
 
 @Provide()
 export class InterestCircleService {
@@ -21,7 +20,4 @@ export class InterestCircleService {
     async getCircleById (circleId: string): Promise<InterestCircle> {
         return InterestCircleModel.findById(circleId).exec();
     }
-     async getCirclePosts (circleId: string): Promise<Post[]> {
-        return PostModel.find({circle: circleId}).exec();
-     }
 }

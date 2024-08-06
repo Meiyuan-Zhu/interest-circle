@@ -24,6 +24,7 @@
   
   .form-group {
     margin-bottom: 50px;
+    
   }
   
   .form-group label {
@@ -34,7 +35,23 @@
   .form-group input {
     width: 100%;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 0;
+    border-radius: 4px;
+  }
+
+  .form-group2 {
+    margin-bottom: 50px;
+  }
+  
+  .form-group2 label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .form-group2 input {
+    width: 100%;
+    padding: 10px;
+    border: 0;
     border-radius: 4px;
   }
   

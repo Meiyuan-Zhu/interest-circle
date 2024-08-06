@@ -66,16 +66,5 @@ export class InterestCircleController {
     }
   }
 
-  @Get('/circleId/posts')
-  async getCirclePosts(@Param('circleId') circleId: string) {
-    try {
-      const posts = await this.interestCircleService.getCirclePosts(circleId);
-      this.ctx.body = posts;
-    } catch (error) {
-      console.error('Error fetching circle posts:',error);
-      this.ctx.body = {success: false, message: 'Error fetching circle posts'};
-    }
-  }
-
     
 }

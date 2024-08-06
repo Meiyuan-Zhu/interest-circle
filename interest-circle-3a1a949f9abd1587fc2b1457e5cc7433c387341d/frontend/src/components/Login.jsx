@@ -34,7 +34,7 @@ const Login = () => {
           <input type="text" {...register('username', { required: true })} />
           {errors.username && <span>Username is required</span>}
         </div>
-        <div className="form-group">
+        <div className="form-group2">
           <label>Password</label>
           <input type="password" {...register('password', { required: true })} />
           {errors.password && <span>Password is required</span>}

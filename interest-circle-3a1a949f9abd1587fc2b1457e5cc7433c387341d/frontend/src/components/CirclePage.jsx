@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import Modal from 'react-modal';
 import './CirclePage.css';
 
-const CirclePage = ({ username }) => {
+Modal.setAppElement('#root');
+
+const CirclePage = () => {
   const { circleId } = useParams();
-  const [circle, setCircle] = useState(null); // 修改这一行，删除了错误的结构语法
+  const [circle, setCircle] = useState(null);
   const [posts, setPosts] = useState([]);
   const [newPostContent, setNewPostContent] = useState('');
   const [newPostImage, setNewPostImage] = useState(null);
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const username = localStorage.getItem('username');
 
   useEffect(() => {
     fetchCircleDetails();
@@ -27,9 +32,10 @@ const CirclePage = ({ username }) => {
   const fetchPosts = async () => {
     try {
       const response = await axios.get(`http://localhost:7001/api/circles/${circleId}/posts`);
-      setPosts(response.data);
+      setPosts(Array.isArray(response.data) ? response.data : []);
     } catch (error) {
       console.error('Error fetching posts:', error);
+      setPosts([]);
     }
   };
 
@@ -37,7 +43,7 @@ const CirclePage = ({ username }) => {
     const formData = new FormData();
     formData.append('content', newPostContent);
     formData.append('username', username);
-    formData.append('circleid', circleId);
+    formData.append('circleId', circleId);
     if (newPostImage) {
       formData.append('image', newPostImage);
     }
@@ -48,7 +54,6 @@ const CirclePage = ({ username }) => {
           'Content-Type': 'multipart/form-data',
         },
       });
-
       setNewPostContent('');
       setNewPostImage(null);
       fetchPosts();
@@ -56,6 +61,7 @@ const CirclePage = ({ username }) => {
       console.error('Error adding post:', error);
     }
   };
+
 
   return (
     <div className="circle-detail-container">
@@ -75,18 +81,28 @@ const CirclePage = ({ username }) => {
           </div>
         ))}
       </div>
-      <div className="new-post-section">
-        <textarea
-          value={newPostContent}
-          onChange={(e) => setNewPostContent(e.target.value)}
-          placeholder="Write your post here"
-        />
-        <input
-          type="file"
-          onChange={(e) => setNewPostImage(e.target.files[0])}
-        />
-        <button onClick={addPost}>Add Post</button>
-      </div>
+      <button onClick={() => setModalIsOpen(true)}>Create Post</button>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={() => setModalIsOpen(false)}
+        contentLabel="Add Post"
+        className="modal"
+        overlayClassName="overlay"
+      >
+        <h2>Create New Post</h2>
+        <div className="input-group">
+          <textarea
+            value={newPostContent}
+            onChange={(e) => setNewPostContent(e.target.value)}
+            placeholder="Write your post here"
+          />
+          <input
+            type="file"
+            onChange={(e) => setNewPostImage(e.target.files[0])}
+          />
+          <button onClick={addPost}>Submit</button>
+        </div>
+      </Modal>
     </div>
   );
 };
