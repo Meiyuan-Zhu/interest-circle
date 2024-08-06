@@ -15,7 +15,7 @@ export class InterestCircleController {
     @Config('upload')
     uploadConfig;
 
-    @Post('/')
+  @Post('/')
   async createInterestCircle(
     @Fields() fields: any,
     @File() file: any
@@ -23,15 +23,22 @@ export class InterestCircleController {
     const { name, description, createdBy, createdAt } = fields;
 
     let imagePath = '';
-    if (file) {
+    if (file && file.path) {
       const fileName = `${Date.now()}_${file.filename}`;
       imagePath = join(this.uploadConfig.tmpdir, fileName);
       await fs.move(file.filepath, imagePath);
+    } else {
+      console.error('File upload error: file or filepath is undefined');
     }
 
     const data = { name, description, createdBy, createdAt, image: imagePath };
-    const circle = await this.interestCircleService.createInterestCircle(data);
-    this.ctx.body = { success: true, circle };
+    try {
+      const circle = await this.interestCircleService.createInterestCircle(data);
+      this.ctx.body = { success: true, circle };
+    } catch (error) {
+      console.error('Error creating interest circle:', error);
+      this.ctx.body = {success: false, message: 'Error creating interest circle'};
+    }
   }
   @Get('/')
   async getAllInterestCircles() {

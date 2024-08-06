@@ -3,6 +3,7 @@ import axios from 'axios';
 import Modal from 'react-modal';
 import './InterestCircles.css';
 
+Modal.setAppElement('#root');
 const InterestCircles = ({ username }) => {
   const [circles, setCircles] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -17,7 +18,7 @@ const InterestCircles = ({ username }) => {
 
   const fetchCircles = async () => {
     try {
-      const response = await axios.get('/api/circles');
+      const response = await axios.get('http://localhost:7001/api/circles');
       console.log('Fetched circles:', response.data);
       if (Array.isArray(response.data)) {
         setCircles(response.data);
@@ -33,14 +34,16 @@ const InterestCircles = ({ username }) => {
     const formData = new FormData();
     formData.append('name', newCircleName);
     formData.append('description', newCircleDescription);
-    formData.append('createdBy', username); // Use the username prop here
+    formData.append('createdBy', username); 
     formData.append('createdAt', new Date().toISOString());
     if (newCircleImage) {
       formData.append('image', newCircleImage);
+    } else {
+      console.error('No image selected');
     }
 
     try {
-      const response = await axios.post('/api/circles', formData, {
+      const response = await axios.post('http://localhost:7001/api/circles', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
@@ -56,7 +59,7 @@ const InterestCircles = ({ username }) => {
 
   const searchCircles = async () => {
     try {
-      const response = await axios.get(`/api/circles/search?term=${searchTerm}`);
+      const response = await axios.get(`http://localhost:7001/api/circles/search?term=${searchTerm}`);
       if (Array.isArray(response.data)) {
         setCircles(response.data);
       } else {
