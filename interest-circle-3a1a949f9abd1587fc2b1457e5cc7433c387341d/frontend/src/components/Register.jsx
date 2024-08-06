@@ -18,6 +18,7 @@ const Register = () => {
         navigate('/interest-circles'); 
       } else {
         console.log('Registration failed', response.data.message);
+        alert ('Username already exists');
       }
     } catch (error) {
       console.error('Error registering:', error);

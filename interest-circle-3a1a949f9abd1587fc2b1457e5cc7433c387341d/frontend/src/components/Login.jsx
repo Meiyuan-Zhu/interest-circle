@@ -18,6 +18,7 @@ const Login = () => {
         navigate('/interest-circles'); 
       } else {
         console.log('Login failed', response.data.message);
+        alert('Invalid username or password');
       }
     } catch (error) {
       console.error('Error logging in:', error);
