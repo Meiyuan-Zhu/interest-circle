@@ -3,6 +3,7 @@ import * as koa from "@midwayjs/koa";
 import * as mongoose from 'mongoose'
 import { join } from 'path';
 import * as upload from '@midwayjs/upload';
+import * as cors from '@koa/cors';
 
 
 @Configuration({
@@ -20,6 +21,7 @@ export class ContainerConfiguration {
   app: koa.Application;
 
   async onReady() {
+    this.app.use(cors());
     await mongoose.connect('mongodb://localhost:27017/interest-circle');
     console.log('mongoose connect success');
   }
