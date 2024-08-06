@@ -4,24 +4,27 @@ import Modal from 'react-modal';
 import './InterestCircles.css';
 
 Modal.setAppElement('#root');
-const InterestCircles = ({ username }) => {
+const InterestCircles = () => {
   const [circles, setCircles] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [newCircleName, setNewCircleName] = useState('');
   const [newCircleDescription, setNewCircleDescription] = useState('');
-  const [newCircleImage, setNewCircleImage] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const username = localStorage.getItem('username');
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
     fetchCircles();
-  }, []);
+  }, [page]);
 
   const fetchCircles = async () => {
     try {
-      const response = await axios.get('http://localhost:7001/api/circles');
+      const response = await axios.get(`http://localhost:7001/api/circles?page=${page}&limit=10`);
       console.log('Fetched circles:', response.data);
-      if (Array.isArray(response.data)) {
-        setCircles(response.data);
+      if (response.data && Array.isArray(response.data.circles)) {
+        setCircles(response.data.circles);
+        setTotalPages(response.data.totalPages);
       } else {
         console.error('Fetched data is not an array', response.data);
       }
@@ -36,11 +39,7 @@ const InterestCircles = ({ username }) => {
     formData.append('description', newCircleDescription);
     formData.append('createdBy', username); 
     formData.append('createdAt', new Date().toISOString());
-    if (newCircleImage) {
-      formData.append('image', newCircleImage);
-    } else {
-      console.error('No image selected');
-    }
+    
 
     try {
       const response = await axios.post('http://localhost:7001/api/circles', formData, {
@@ -78,6 +77,18 @@ const InterestCircles = ({ username }) => {
     setNewCircleImage(null);
   };
 
+  const goToNextPage = () => {
+    if (page < totalPages) {
+      setPage(page + 1);
+    }
+  }
+
+  const goToPreviousPage = () => {
+    if (page > 1) {
+      setPage(page - 1);
+    }
+  }
+
   return (
     <div className="interest-circles-container">
       <h2 className="title">Hi {username}, welcome to Interest Circles!</h2>
@@ -88,18 +99,26 @@ const InterestCircles = ({ username }) => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           placeholder="Search interest circles"
+          className='search-input'
         />
         <button onClick={searchCircles} className='search-button'>Search</button>
       </div>
-      <ul>
+      <div className="circles-list">
         {circles.map((circle) => (
-          <li key={circle._id}>
-            <h3>{circle.name}</h3>
-            <p>{circle.description}</p>
-            {circle.image && <img src={circle.image} alt={circle.name} />}
-          </li>
+          <div className="circle-card" key={circle._id}>
+            <div className="circle-info">
+              <h3 className="circle-name">{circle.name}</h3>
+              <p className="circle-description">{circle.description}</p>
+              <p className="circle-meta">Created by {circle.createdBy} on {new Date(circle.createdAt).toLocaleDateString()}</p>
+            </div>
+          </div>
         ))}
-      </ul>
+      </div>
+      <div className="pagination">
+        <button onClick={goToPreviousPage} disabled={page === 1} className='previous-button'>⬅</button>
+        <span className='page-number'>Page {page} of {totalPages}</span>
+        <button onClick={goToNextPage} disabled={page === totalPages} className='next-button'>➡️</button>
+      </div>
 
       <Modal
         isOpen={modalIsOpen}
@@ -108,7 +127,7 @@ const InterestCircles = ({ username }) => {
         className="modal"
         overlayClassName="overlay"
       >
-        <h2 className='add-title'>Add New Circle</h2>
+        <h2 className='add-title'>Create New Circle</h2>
         <div className="input-group">
           <input
             type="text"
@@ -122,14 +141,6 @@ const InterestCircles = ({ username }) => {
             onChange={(e) => setNewCircleDescription(e.target.value)}
             placeholder="Circle Description"
           />
-         <div className="file-input">
-            <input
-              type="file"
-              id="file"
-              onChange={(e) => setNewCircleImage(e.target.files[0])}
-            />
-            <label htmlFor="file">上传封面图片</label>
-          </div>
           <button onClick={addCircle} className='submit-button'>Submit</button>
         </div>
       </Modal>

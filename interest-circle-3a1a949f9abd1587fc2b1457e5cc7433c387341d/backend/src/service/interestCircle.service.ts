@@ -8,8 +8,9 @@ export class InterestCircleService {
         return circle.save();
     }
 
-    async getAllInterestCircles(): Promise<InterestCircle[]> {
-        return InterestCircleModel.find().exec();
+    async getAllInterestCircles(page: number, limit: number): Promise<InterestCircle[]> {
+        const skip = (page-1) * limit;
+        return InterestCircleModel.find().skip(skip).limit(limit).exec();
     }
 
     async getInterestCircles(term: string): Promise<InterestCircle[]> {

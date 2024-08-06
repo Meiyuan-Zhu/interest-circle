@@ -15,9 +15,7 @@ export class InterestCircle {
 
   @prop({required: true})
   createdAt: Date;
-
-  @prop()
-  image: string;
+  
 }
 
 export const InterestCircleModel = getModelForClass(InterestCircle);
