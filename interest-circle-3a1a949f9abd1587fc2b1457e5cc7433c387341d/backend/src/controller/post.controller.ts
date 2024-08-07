@@ -1,4 +1,4 @@
-import { Config, Controller, Fields, File, Get, Inject, Param, Post } from "@midwayjs/core";
+import { Body, Config, Controller, Fields, File, Get, Inject, Param, Post } from "@midwayjs/core";
 import { Context } from "@midwayjs/koa";
 import { PostService } from '../service/post.service';
 import { join } from "path";
@@ -29,13 +29,13 @@ export class PostController {
     if (file && file.data) {
       fileName = `${Date.now()}_${file.filename}`;
       const tmpPath = file.data;
-      const tragetPath = join(this.uploadConfig.uploaddir, fileName);
+      const targetPath = join(this.uploadConfig.uploaddir, fileName);
 
       console.log('Temporary file path:', tmpPath);
-      console.log('Target path:',tragetPath);
+      console.log('Target path:',targetPath);
       
       try {
-        await fs.move(tmpPath, tragetPath);
+        await fs.move(tmpPath, targetPath);
         console.log('File moved successfully');
         
       } catch (error) {
@@ -69,6 +69,36 @@ export class PostController {
     } catch (error) {
       console.error('Error fetching circle posts:', error);
       this.ctx.body = { success: false, message: 'Error fetching circle posts' };
+    }
+  }
+
+  @Post('/:circleId/posts/:postId/comments')
+  async addComment(
+    @Param('postId') postId: string,
+    @Body() comment: {username: string, content: string}
+  ) {
+    try {
+      const post = await this.postService.addComment(postId, comment);
+      console.log(`Comment added successfully to post: ${postId}`);
+      
+      this.ctx.body = { success: true, post };
+    } catch (error) {
+      console.error('Error adding comment:', error);
+      this.ctx.body = { success: false, message: 'Error adding comment' };
+    }
+
+  }
+
+  @Get('/:circleId/posts/:postId/comments')
+  async getComments(@Param('postId') postId: string) {
+    console.log(`Received request to fetch comments for post: ${postId}`);
+    try {
+      const comments = await this.postService.getComments(postId);
+      console.log(`Comments fetched successfully for post: ${postId}`);
+      this.ctx.body = { success: true, comments };
+    } catch (error) {
+      console.log(`Error fetching comments for post: ${postId} - ${error.message}`);
+      this.ctx.body = { success: false, message: error.message };
     }
   }
 }

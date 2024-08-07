@@ -1,6 +1,6 @@
 .circle-detail-container {
     padding: 20px;
-    background-color: hsl(349, 72%, 94%);
+    background-color: hsl(347, 50%, 95%);
     min-height: 100vh;
   }
   
@@ -9,7 +9,7 @@
   }
   
   .post {
-    background-color: #fff;
+    background-color: hsla(310, 100%, 99%, 0.747);
     border: 1px solid #ddd;
     padding: 10px;
     margin-bottom: 10px;
@@ -77,12 +77,22 @@
   .submit-button:hover {
     background-color: #357ab8;
   }
+
   
-  .post-content img {
-    max-width: 100%;
+  .post-content {
+    max-width: 100%; 
+    display:flex;
+    align-items: flex-start;
+    margin-left: 5px;
+  }
+  
+  .post-image {
+    max-width: 40%;
     height: auto;
     display: block;
-    margin: 0 auto;
-    border-radius: 10px;
+    margin-right: 20px;
+    object-fit: contain; 
   }
+  
+
   

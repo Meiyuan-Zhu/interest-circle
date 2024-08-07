@@ -14,6 +14,7 @@ const CirclePage = () => {
   const [newPostImage, setNewPostImage] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const username = localStorage.getItem('username');
+  const [newCommentContent, setNewCommentContent] = useState('');
 
   useEffect(() => {
     fetchCircleDetails();
@@ -77,6 +78,37 @@ const CirclePage = () => {
     }
   };
 
+  const addComment = async (postId, commentContent) => {
+    if (!commentContent.trim()) {
+      alert('Comment content cannot be empty');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('username', username);
+    formData.append('content', commentContent);
+
+    const commentData = {
+      username,
+      content: commentContent,
+    }
+    
+    console.log(`Adding comment to post ${postId}`,commentData);
+
+    try {
+      const response = await axios.post(`http://localhost:7001/api/circles/${circleId}/posts/${postId}/comments`, commentData);
+      console.log('Comment response:', response.data);
+
+      if (response.data.success) {
+        setNewCommentContent('');
+        fetchPosts(); 
+      } else {
+        console.error('Error adding comment:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error adding comment:', error);
+    }
+  }
 
 
 
@@ -89,7 +121,7 @@ const CirclePage = () => {
           <p>Created by {circle.createdBy} on {new Date(circle.createdAt).toLocaleDateString()}</p>
         </>
       )}
-      <button onClick={() => setModalIsOpen(true)}>Create Post</button>
+      <button onClick={() => setModalIsOpen(true)}>Add a Post</button>
       <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)} contentLabel="Create Post">
         <h2>Create New Post</h2>
         <textarea
@@ -106,9 +138,31 @@ const CirclePage = () => {
       <div className="posts-section">
         {posts.map((post) => (
           <div key={post._id} className="post">
-            <p className='post-content'>{post.content}</p>
-            {post.image && <img src={`http://localhost:7001${post.image}`} alt="Post" />}
-            <p>Posted by {post.username} on {new Date(post.createdAt).toLocaleDateString()}</p>
+            <div className='post-content'>
+              {post.image && <img className = 'post-image' src={`http://localhost:7001${post.image}`} alt="Post" />}
+              <div>
+                <p>{post.content}</p>
+                <p>Posted by {post.username} on {new Date(post.createdAt).toLocaleDateString()}</p>
+                <div className="comments-section">
+                  {post.comments.map((comment, index) => (
+                    <div key={index} className="comment">
+                      <p>{comment.content}</p>
+                      <p>Commented by {comment.username} on {new Date(comment.createdAt).toLocaleDateString()}</p>
+                    </div>
+                  ))}
+                  <input
+                    type="text"
+                    placeholder="Write a comment..."
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter') {
+                        addComment(post._id, e.target.value);
+                        e.target.value = '';
+                      }
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         ))}
       </div>
