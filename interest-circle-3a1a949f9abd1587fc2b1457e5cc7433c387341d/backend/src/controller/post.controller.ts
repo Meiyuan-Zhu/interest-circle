@@ -22,21 +22,40 @@ export class PostController {
     @File() file: any,
   ) {
     const { content, username } = fields;
+    
+    let fileName = '';
+    console.log('File:', file);
 
-    let imagePath = '';
-    if (file && file.filepath) {
-      const fileName = `${Date.now()}_${file.filename}`;
-      imagePath = join(this.uploadConfig.tmpdir, fileName);
-      await fs.move(file.filepath, imagePath);
+    if (file && file.data) {
+      fileName = `${Date.now()}_${file.filename}`;
+      const tmpPath = file.data;
+      const tragetPath = join(this.uploadConfig.uploaddir, fileName);
+
+      console.log('Temporary file path:', tmpPath);
+      console.log('Target path:',tragetPath);
+      
+      try {
+        await fs.move(tmpPath, tragetPath);
+        console.log('File moved successfully');
+        
+      } catch (error) {
+        console.error('Error moving file:', error);
+      }
     } else {
       console.error('File upload error: file or filepath is undefined');
     }
 
+    const imagePath = `/public/uploads/images/${fileName}`;
+    console.log('Image path:', imagePath);
     const data = { content, username, circleId, image: imagePath };
+
     try {
       const post = await this.postService.createPost(data);
+      console.log('Post created successfully:',post);
       this.ctx.body = { success: true, post };
+
     } catch (error) {
+      
       console.error('Error creating post:', error);
       this.ctx.body = { success: false, message: 'Error creating post' };
     }

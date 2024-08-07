@@ -40,13 +40,22 @@ const CirclePage = () => {
   };
 
   const addPost = async () => {
+    if (!newPostContent.trim()) {
+      alert('Post content cannot be empty');
+      return;
+    }
+
     const formData = new FormData();
     formData.append('content', newPostContent);
     formData.append('username', username);
     formData.append('circleId', circleId);
     if (newPostImage) {
       formData.append('image', newPostImage);
+      console.log('Uploading image:', newPostImage);
+      
     }
+
+    console.log('Form Data:', formData);
 
     try {
       const response = await axios.post(`http://localhost:7001/api/circles/${circleId}/posts`, formData, {
@@ -54,13 +63,21 @@ const CirclePage = () => {
           'Content-Type': 'multipart/form-data',
         },
       });
-      setNewPostContent('');
-      setNewPostImage(null);
-      fetchPosts();
+      console.log('Post response:', response.data);
+      if (response.data.success) {
+        setNewPostContent('');
+        setNewPostImage(null);
+        setModalIsOpen(false);
+        fetchPosts(); 
+      } else {
+        console.error('Error adding post:', response.data.message);
+      }
     } catch (error) {
       console.error('Error adding post:', error);
     }
   };
+
+
 
 
   return (
@@ -72,37 +89,29 @@ const CirclePage = () => {
           <p>Created by {circle.createdBy} on {new Date(circle.createdAt).toLocaleDateString()}</p>
         </>
       )}
+      <button onClick={() => setModalIsOpen(true)}>Create Post</button>
+      <Modal isOpen={modalIsOpen} onRequestClose={() => setModalIsOpen(false)} contentLabel="Create Post">
+        <h2>Create New Post</h2>
+        <textarea
+          value={newPostContent}
+          onChange={(e) => setNewPostContent(e.target.value)}
+          placeholder="Write your post here"
+        />
+        <input
+          type="file"
+          onChange={(e) => setNewPostImage(e.target.files[0])}
+        />
+        <button onClick={addPost}>Submit</button>
+      </Modal>
       <div className="posts-section">
         {posts.map((post) => (
           <div key={post._id} className="post">
-            <p>{post.content}</p>
-            {post.image && <img src={post.image} alt="Post" />}
+            <p className='post-content'>{post.content}</p>
+            {post.image && <img src={`http://localhost:7001${post.image}`} alt="Post" />}
             <p>Posted by {post.username} on {new Date(post.createdAt).toLocaleDateString()}</p>
           </div>
         ))}
       </div>
-      <button onClick={() => setModalIsOpen(true)}>Create Post</button>
-      <Modal
-        isOpen={modalIsOpen}
-        onRequestClose={() => setModalIsOpen(false)}
-        contentLabel="Add Post"
-        className="modal"
-        overlayClassName="overlay"
-      >
-        <h2>Create New Post</h2>
-        <div className="input-group">
-          <textarea
-            value={newPostContent}
-            onChange={(e) => setNewPostContent(e.target.value)}
-            placeholder="Write your post here"
-          />
-          <input
-            type="file"
-            onChange={(e) => setNewPostImage(e.target.files[0])}
-          />
-          <button onClick={addPost}>Submit</button>
-        </div>
-      </Modal>
     </div>
   );
 };
