@@ -32,12 +32,11 @@ export class PostController {
       const targetPath = join(this.uploadConfig.uploaddir, fileName);
 
       console.log('Temporary file path:', tmpPath);
-      console.log('Target path:',targetPath);
+      console.log('Target path:', targetPath);
       
       try {
         await fs.move(tmpPath, targetPath);
         console.log('File moved successfully');
-        
       } catch (error) {
         console.error('Error moving file:', error);
       }
@@ -51,11 +50,9 @@ export class PostController {
 
     try {
       const post = await this.postService.createPost(data);
-      console.log('Post created successfully:',post);
+      console.log('Post created successfully:', post);
       this.ctx.body = { success: true, post };
-
     } catch (error) {
-      
       console.error('Error creating post:', error);
       this.ctx.body = { success: false, message: 'Error creating post' };
     }
@@ -75,18 +72,16 @@ export class PostController {
   @Post('/:circleId/posts/:postId/comments')
   async addComment(
     @Param('postId') postId: string,
-    @Body() comment: {username: string, content: string}
+    @Body() comment: { username: string, content: string }
   ) {
     try {
       const post = await this.postService.addComment(postId, comment);
       console.log(`Comment added successfully to post: ${postId}`);
-      
       this.ctx.body = { success: true, post };
     } catch (error) {
       console.error('Error adding comment:', error);
       this.ctx.body = { success: false, message: 'Error adding comment' };
     }
-
   }
 
   @Get('/:circleId/posts/:postId/comments')
@@ -101,4 +96,16 @@ export class PostController {
       this.ctx.body = { success: false, message: error.message };
     }
   }
+
+  @Get('/:circleId/user-activity-stats')
+  async getUserActivityStats(@Param('circleId') circleId: string) {
+    try {
+      const userStats = await this.postService.getUserActivityStats(circleId);
+      this.ctx.body = { success: true, userStats };
+    } catch (error) {
+      console.error('Error fetching user activity stats:', error);
+      this.ctx.body = { success: false, message: 'Error fetching user activity stats' };
+    }
+  }
 }
+

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import Modal from 'react-modal';
+import Chart from 'chart.js/auto'; 
 import './CirclePage.css';
 
 Modal.setAppElement('#root');
@@ -15,10 +16,12 @@ const CirclePage = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const username = localStorage.getItem('username');
   const [newCommentContent, setNewCommentContent] = useState('');
+  const [userActivityStats, setUserActivityStats] = useState({});
 
   useEffect(() => {
     fetchCircleDetails();
     fetchPosts();
+    fetchUserActivityStats();
   }, []);
 
   const fetchCircleDetails = async () => {
@@ -40,6 +43,55 @@ const CirclePage = () => {
     }
   };
 
+  const fetchUserActivityStats = async () => {
+    try {
+      const response = await axios.get(`http://localhost:7001/api/circles/${circleId}/user-activity-stats`);
+      const stats = response.data.userStats;
+      setUserActivityStats(stats);
+      if (stats) {
+        createChart(stats);
+      }
+    } catch (error) {
+      console.error('Error fetching user activity stats:', error);
+    }
+  };
+
+  const createChart = (stats) => {
+    const ctx = document.getElementById('userActivityChart').getContext('2d');
+    if (Chart.getChart("userActivityChart")) {
+      Chart.getChart("userActivityChart").destroy();
+    }
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: Object.keys(stats),
+        datasets: [
+          {
+            label: 'Posts',
+            data: Object.values(stats).map(stat => stat.posts),
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1,
+          },
+          {
+            label: 'Comments',
+            data: Object.values(stats).map(stat => stat.comments),
+            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+            borderColor: 'rgba(75, 192, 192, 1)',
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+        },
+      },
+    });
+  };
+
   const addPost = async () => {
     if (!newPostContent.trim()) {
       alert('Post content cannot be empty');
@@ -53,7 +105,6 @@ const CirclePage = () => {
     if (newPostImage) {
       formData.append('image', newPostImage);
       console.log('Uploading image:', newPostImage);
-      
     }
 
     console.log('Form Data:', formData);
@@ -84,10 +135,6 @@ const CirclePage = () => {
       return;
     }
 
-    const formData = new FormData();
-    formData.append('username', username);
-    formData.append('content', commentContent);
-
     const commentData = {
       username,
       content: commentContent,
@@ -109,8 +156,6 @@ const CirclePage = () => {
       console.error('Error adding comment:', error);
     }
   }
-
-
 
   return (
     <div className="circle-detail-container">
@@ -166,8 +211,11 @@ const CirclePage = () => {
           </div>
         ))}
       </div>
+      <h3>Member Activity Stats</h3>
+      <canvas id="userActivityChart"></canvas>
     </div>
   );
 };
 
 export default CirclePage;
+
