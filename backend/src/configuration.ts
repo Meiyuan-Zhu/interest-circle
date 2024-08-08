@@ -1,33 +1,40 @@
-import { Configuration, App, IMidwayContainer } from '@midwayjs/core';
+import { Configuration, App } from "@midwayjs/core";
+import * as koa from "@midwayjs/koa";
+import * as mongoose from 'mongoose'
 import { join } from 'path';
-import * as orm from '@midwayjs/typeorm';
-import * as koa from '@midwayjs/koa';
-import 'reflect-metadata';
-import { DataSource } from 'typeorm';
-import { ILifeCycle } from '@midwayjs/core';
+import * as upload from '@midwayjs/upload';
+import * as cors from '@koa/cors';
+import * as staticFile from '@midwayjs/static-file';
+
 
 
 
 @Configuration({
   imports: [
-    orm,
     koa,
+    upload,
+    staticFile
+    
   ],
   importConfigs: [
-    join(__dirname, './config')
-  ]
+    join(__dirname,'./config')
+  ],
 })
 
-export class ContainerLifeCycle implements ILifeCycle {
+export class ContainerConfiguration {
   @App()
   app: koa.Application;
 
-  async onReady(container: IMidwayContainer) {
-    const dataSource = await container.getAsync(DataSource);
-    if (dataSource.isInitialized) {
-      console.log('Database connection established successfully.');
-    } else {
-      console.error('Failed to establish database connection.');
-    }
+  async onReady() {
+    await mongoose.connect('mongodb://localhost:27017/interest-circle');
+    console.log('mongoose connect success');
+    
+    this.app.use(cors({
+      origin: '*',
+      allowMethods: ['GET', 'POST', 'PUT', 'DELETE'],
+      allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
+    }));
+
+    
   }
 }

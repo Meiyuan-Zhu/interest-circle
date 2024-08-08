@@ -1,35 +1,74 @@
-import { Body, Controller, Get, Inject, Post, Provide } from "@midwayjs/core";
-import { InterestCircleService } from "../service/interestCircle.service";
-import { CreateInterestCircleDto } from "../dto/interestCircle.dto";
+import { Inject, Controller, Post, Get, Query, Fields, Config, Param } from '@midwayjs/decorator';
+import { Context } from '@midwayjs/koa';
+import { InterestCircleService } from '../service/interestCircle.service';
+import { InterestCircleModel } from '../model/interestCircle.model';
 
 
-
-@Provide()
-@Controller('/api/interest-circles')
+@Controller('/api/circles')
 export class InterestCircleController {
+    @Inject()
+    ctx: Context;
+
     @Inject()
     interestCircleService: InterestCircleService;
 
-    @Get('/')
-    async getCircles(): Promise<any> {
-        try{
-            const interestCircles = await this.interestCircleService.getAllInterestCircles();
-            return {success: true, message: '获取兴趣圈列表成功', data: interestCircles}
-        } catch (error) {
-            console.log(error);
-            return {success: false, message: '获取兴趣圈列表失败', data: error}
-       }
-    }
+    @Config('upload')
+    uploadConfig;
 
+  @Post('/')
+  async createInterestCircle(
+    @Fields() fields: any,
+  ) {
+    const { name, description, createdBy, createdAt } = fields;
 
-    @Post('/create')
-    async create(@Body() body: CreateInterestCircleDto): Promise<any> {
-        try{
-            const interestCircle = await this.interestCircleService.createInterestCircle(body);
-            return {success: true, message: '兴趣圈创建成功', data: interestCircle}
-        } catch (error) {
-            console.log(error);
-            return {success: false, message: '兴趣圈创建失败', data: error}
-        }
+    const data = { name, description, createdBy, createdAt };
+    try {
+      const circle = await this.interestCircleService.createInterestCircle(data);
+      this.ctx.body = { success: true, circle };
+    } catch (error) {
+      console.error('Error creating interest circle:', error);
+      this.ctx.body = {success: false, message: 'Error creating interest circle'};
     }
+  }
+  @Get('/')
+  async getAllInterestCircles(
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 4
+  ) {
+    const skip = (page - 1) * limit;
+    try {
+      const [circles, totalRecords] = await Promise.all([
+        InterestCircleModel.find().skip(skip).limit(limit).lean().exec(),
+        InterestCircleModel.countDocuments().exec()
+      ]);
+      const totalPages = Math.ceil(totalRecords / limit);
+      this.ctx.body = { circles, totalPages };
+    } catch (error) {
+      console.error('Error fetching interest circles:', error);
+      this.ctx.body = { success: false, message: 'Error fetching interest circles' };
+    }
+  }
+
+  @Get('/search')
+  async searchInterestCircles(
+    @Query('term') term: string,
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 4
+  ) {
+    const circles = await this.interestCircleService.getInterestCircles(term,page,limit);
+    this.ctx.body = circles;
+  }
+
+  @Get('/:circleId')
+  async getCircleDetails(@Param('circleId') circleId: string) {
+    try {
+      const circle = await this.interestCircleService.getCircleById(circleId);
+      this.ctx.body = circle;
+    } catch (error) {
+      console.error('Error fetching circle details:',error);
+      this.ctx.body = {success: false, message: 'Error fetching circle details'};
+    }
+  }
+
+    
 }

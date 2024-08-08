@@ -1,47 +1,45 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useForm } from 'react-hook-form';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
 const Login = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  const navigate = useNavigate();
 
-  const handleLogin = async (event) => {
-    event.preventDefault();
-    const response = await fetch('/api/users/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ username, password }),
-    });
-    const data = await response.json();
-    if (data.token) {
-      history.push('/interest-circles');
+  const onSubmit = async (data) => {
+    try {
+      console.log('Logging in with data:', data); 
+      const response = await axios.post('http://127.0.0.1:7001/api/users/login', data);
+      if (response.data.success) {
+        console.log('Login successful', response.data.token);
+        localStorage.setItem('username', data.username); 
+        navigate('/interest-circles'); 
+      } else {
+        console.log('Login failed', response.data.message);
+        alert('Invalid username or password');
+      }
+    } catch (error) {
+      console.error('Error logging in:', error);
     }
-    alert(data.message);
   };
 
   return (
     <div className="login-container">
-      <form onSubmit={handleLogin} className="login-form">
+      <form onSubmit={handleSubmit(onSubmit)} className="login-form">
         <h2>Log In</h2>
         <div className="form-group">
           <label>Username</label>
-          <input
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
+          <input type="text" {...register('username', { required: true })} />
+          {errors.username && <span>Username is required</span>}
         </div>
-        <div className="form-group">
+        <div className="form-group2">
           <label>Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          <input type="password" {...register('password', { required: true })} />
+          {errors.password && <span>Password is required</span>}
         </div>
-        <button className = "login-button" type="submit">Login</button>
+        <button className="login-button" type="submit">Login</button>
       </form>
       <div className="background-image"></div>
     </div>
@@ -49,3 +47,4 @@ const Login = () => {
 };
 
 export default Login;
+

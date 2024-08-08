@@ -1,26 +1,24 @@
 import { Provide } from '@midwayjs/core';
-import { CreateInterestCircleDto } from '../dto/interestCircle.dto';
-import { InterestCircle } from '../entity/interestCircle';
-import { InjectEntityModel } from '@midwayjs/typeorm';
-import { Repository } from 'typeorm';
+import { InterestCircle, InterestCircleModel } from '../model/interestCircle.model';
 
 @Provide()
 export class InterestCircleService {
-    @InjectEntityModel(InterestCircle)
-    interestCircleModel: Repository<InterestCircle>;
-
-    async createInterestCircle(createInterestCircleDto: CreateInterestCircleDto) {
-        const {name, description, createdBy} = createInterestCircleDto;
-        const interestCircle = new InterestCircle();
-        interestCircle.name = name;
-        interestCircle.description = description;
-        interestCircle.createdBy = createdBy;
-        interestCircle.createdAt = new Date();
-        return await this.interestCircleModel.save(interestCircle);
-
+    async createInterestCircle(data:any): Promise<InterestCircle> {
+        const circle = new InterestCircleModel(data);
+        return circle.save();
     }
 
-    async getAllInterestCircles() {
-        return await this.interestCircleModel.find();
+    async getAllInterestCircles(page: number, limit: number): Promise<InterestCircle[]> {
+        const skip = (page-1) * limit;
+        return InterestCircleModel.find().skip(skip).limit(limit).exec();
+    }
+
+    async getInterestCircles(term: string, page: number, limit: number): Promise<InterestCircle[]> {
+        const skip = (page-1) * limit;
+        return InterestCircleModel.find({name: new RegExp(term, 'i')}).skip(skip).limit(limit).exec();
+    }
+
+    async getCircleById (circleId: string): Promise<InterestCircle> {
+        return InterestCircleModel.findById(circleId).exec();
     }
 }

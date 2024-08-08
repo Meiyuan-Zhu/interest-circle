@@ -1,3 +1,10 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  
+}
+
 .home-container {
   position: relative;
   min-height: 100vh;
@@ -29,9 +36,11 @@
   text-shadow: rgba(128, 128, 128, 0.708);
   padding: 0;
   text-align: center;
-  font-weight: bold;
-  font-size: 4rem;
-  margin-top: 6.5rem;
+  font-weight: 600;
+  font-size: 2rem;
+  margin-top: 3rem;
+  animation: float 5s ease-in-out infinite;
+  font-family: 'Open Sans';
 }
 
 .main-content {
@@ -89,3 +98,14 @@
 }
 
   
+@keyframes float {
+  0% {
+      transform: translateY(0);
+  }
+  50% {
+      transform: translateY(-10px);
+  }
+  100% {
+      transform: translateY(0);
+  }
+}

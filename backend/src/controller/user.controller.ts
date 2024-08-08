@@ -1,43 +1,43 @@
-import { Provide, Controller, Post, Body, Inject } from '@midwayjs/decorator';
-import { UserService } from '../service/user.service';
-import { RegisterDTO, LoginDTO } from '../dto/user.dto';
+import { Controller, Post, Body, Inject } from '@midwayjs/decorator';
 import { Context } from '@midwayjs/koa';
+import { UserService } from '../service/user.service';
 
-@Provide()
 @Controller('/api/users')
 export class UserController {
   @Inject()
-  userService: UserService;
-
-  @Inject()
   ctx: Context;
 
+  @Inject()
+  userService: UserService;
+
   @Post('/register')
-  async register(@Body() body: RegisterDTO): Promise<any> {
+  async register(@Body() user) {
+    console.log('Register request received with data:', user);
+    const { username, password } = user;
     try {
-      const { username, password } = body;
-      const user = await this.userService.register({username, password});
-      return { success: true, message: '注册成功', data: user };
+      const result = await this.userService.register(username, password);
+      console.log('Registration result:', result);
+      return { success: true, message: 'User registered successfully' };
     } catch (error) {
-      console.log(error);
-      return { success: false, message: '注册失败', error: error.message };
-      
+      console.error('Error during registration:', error);
+      return { success: false, message: 'Registration failed', error };
     }
   }
 
   @Post('/login')
-  async login(@Body() body: LoginDTO ): Promise<any> {
+  async login(@Body() user) {
+    console.log('Login request received with data:', user);
+    const { username, password } = user;
     try {
-      const { username, password } = body;
-      const user = await this.userService.login({username, password});
-      if (user) {
-        return { success: true, message: '登录成功', data: user };
+      const result = await this.userService.login(username,password);
+      if (result) {
+        return { success: true, token: 'dummy_token' }; 
       } else {
-        return { success: false, message: '用户名或密码错误' };
+        return { success: false, message: 'User not found' };
       }
     } catch (error) {
-      console.log(error);
-      return { success: false, message: '登录失败', error: error.message };
+      console.error('Error during login:', error);
+      return { success: false, message: 'Login failed', error };
     }
   }
 }

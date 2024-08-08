@@ -1,0 +1,184 @@
+.circle-detail-container {
+    padding: 20px;
+    background-color: hsl(347, 50%, 95%);
+    min-height: 100vh;
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+
+  .log-out-button {
+    border-radius: 5px;
+    border: 0;
+    padding: 5px;
+    color: black;
+    background-color: rgba(234, 182, 251, 0.721);
+    cursor: pointer;
+    margin-bottom: 20px;
+    margin-right: 20px;
+   }
+
+   .log-out-button:hover {
+    background-color:  rgba(234, 182, 251, 0.559);
+   }
+
+   .back-button {
+    border-radius: 5px;
+    border: 0;
+    padding: 5px;
+    color: black;
+    background-color: rgba(234, 182, 251, 0.721);
+    cursor: pointer;
+    margin-bottom: 20px;
+   }
+  
+   .back-button:hover {
+    background-color:  rgba(234, 182, 251, 0.559);
+   }
+  
+   .circle-name2 {
+    font-size: 2.5rem;
+    font-weight: 550;
+    margin-bottom: 20px;
+    font-family: 'Open Sans';
+   }
+   .circle-description {
+    margin-top: 0;
+    font-size: 1rem;
+   }
+   .circle-creator {
+    font-size: 0.9rem;
+    color: rgb(62, 62, 62);
+   }
+
+   .activity-title {
+    font-size: 1.5rem;
+    font-family: 'Open Sans';
+    margin-top: 30px;
+   }
+
+   .chart {
+    max-width: 1000px;
+    max-height: 400px;
+   }
+
+  .posts-section {
+    margin-top: 20px;
+  }
+
+  .posts-title {
+    font-size: 1.5rem;
+    font-family: 'Open Sans';
+    margin-top: 30px;
+  }
+
+  .add-button {
+    background-color: hsl(206, 87%, 84%);
+    color: black;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-bottom:20px;
+  }
+  
+  .add-button:hover {
+    background-color: #4ea8f6e5;
+  }
+  
+  .post {
+    background-color: hsla(310, 100%, 99%, 0.747);
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+  
+  
+  .modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgb(255, 250, 253);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+  }
+  
+  .modal input,
+  .modal textarea{
+    margin: 10px 0;
+    width: 100%;
+    max-width: 300px; 
+    box-sizing: border-box;
+  }
+
+  .submit-button {
+    background-color: #4a90e2;
+    color: white;
+    padding: 10px, 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-top: 10px;
+  }
+
+  
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+  }
+  
+  .submit-button:hover {
+    background-color: #357ab8;
+  }
+  
+  .post-content {
+    max-width: 100%; 
+    display:flex;
+    align-items: flex-start;
+    margin-left: 5px;
+    
+  }
+
+  .post-words {
+    font-weight: bold;
+    font-family: 'Open Sans';
+  }
+  .post-creator {
+    color: rgb(103, 103, 103);
+  }
+
+  .commentor {
+    color: rgb(103, 103, 103);
+    font-weight: 300;
+  }
+  
+  .post-image {
+    max-width: 40%;
+    height: auto;
+    display: block;
+    margin-right: 20px;
+    object-fit: contain; 
+  }
+
+  .comments-section {
+    margin-top: 40px;
+  }
+
+  .comment-content {
+    font-weight: 300;
+  }
+  
+
+  

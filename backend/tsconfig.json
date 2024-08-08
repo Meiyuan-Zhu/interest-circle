@@ -1,7 +1,7 @@
 {
   "compileOnSave": true,
   "compilerOptions": {
-    "target": "es6",
+    "target": "es2018",
     "module": "commonjs",
     "moduleResolution": "node",
     "experimentalDecorators": true,
@@ -14,7 +14,10 @@
     "pretty": true,
     "declaration": true,
     "forceConsistentCasingInFileNames": true,
-    "typeRoots": [ "./typings", "./node_modules/@types"],
+    "typeRoots": [
+      "node_modules/@types",
+      "node_modules/@typegoose"
+    ],
     "outDir": "dist",
     "rootDir": "src"
   },
@@ -24,6 +27,5 @@
     "dist",
     "node_modules",
     "test"
-  ],
-  "include": ["src/**/*.ts"]
+  ]
 }

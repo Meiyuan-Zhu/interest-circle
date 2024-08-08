@@ -1,54 +1,41 @@
-import { Inject, Provide } from '@midwayjs/core';
-import { InjectEntityModel } from '@midwayjs/typeorm';
-import { Repository } from 'typeorm';
-import { User } from '../entity/user';
-import { RegisterDTO, LoginDTO } from '../dto/user.dto';
-import { JwtService } from '@midwayjs/jwt';
+import { Provide } from '@midwayjs/decorator';
+import { User } from '../model/user.model';
+import * as bcrypt from 'bcryptjs';
+import * as jwt from 'jsonwebtoken';
 
 @Provide()
 export class UserService {
-
-  @InjectEntityModel(User)
-  userModel: Repository<User>;
-
-  @Inject()
-  jwtService: JwtService;
-
-  // save data
-  async register(registerDTO: RegisterDTO) {
-    const { username, password } = registerDTO;
-    const existUser = await this.userModel.findOne({ where: { username } });
-    if (existUser) {
-      throw new Error('用户已存在');
-    } else {
-      const user = new User();
-      user.username = username;
-      user.password = password;
-      await this.userModel.save(user);
-      return '注册成功';
+  async register(username: string, password: string) {
+    console.log('Registering user:', username);
+    const existingUser = await User.findOne({ username });
+    if (existingUser) {
+      console.log('Username already exists:', username);
+      throw new Error('Username already exists');
     }
 
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const user = new User({ username, password: hashedPassword });
+    await user.save();
+    console.log('User registered successfully:', username);
+    return { message: 'User registered successfully' };
   }
 
-  // query data
-  async login(loginDTO: LoginDTO) {
-    const { username, password } = loginDTO;
-    const user = await this.userModel.findOne({ where: { username } });
+  async login(username: string, password: string) {
+    console.log('Logging in user:', username);
+    const user = await User.findOne({ username });
     if (!user) {
-      throw new Error('用户不存在');
-    } else {
-      const isMatch = password === user.password; 
-      if (!isMatch) {
-        throw new Error('密码错误');
-      } else {
-        const token = await this.generateToken(user);
-        return {user, token} ;
-      }
+      console.log('User not found:', username);
+      throw new Error('User not found');
     }
-  }
 
-  async generateToken(user: User) {
-    const payload = {username: user.username, sub: user.id};
-    return this.jwtService.sign(payload);
+    const isPasswordValid = await bcrypt.compare(password, user.password);
+    if (!isPasswordValid) {
+      console.log('Invalid password for user:', username);
+      throw new Error('Invalid password');
+    }
+
+    const token = jwt.sign({ username: user.username }, 'your_secret_key', { expiresIn: '1h' });
+    console.log('User logged in successfully:', username);
+    return { token };
   }
 }
