@@ -33,7 +33,7 @@ export class InterestCircleController {
   @Get('/')
   async getAllInterestCircles(
     @Query('page') page: number = 1,
-    @Query('limit') limit: number = 10
+    @Query('limit') limit: number = 4
   ) {
     const skip = (page - 1) * limit;
     try {

@@ -5,6 +5,7 @@ import { join } from "path";
 import * as fs from 'fs-extra';
 import { User } from "../model/user.model";
 
+
 @Controller('/api/circles')
 export class PostController {
   @Inject()
@@ -135,6 +136,5 @@ export class PostController {
       this.ctx.body = { success: false, message: 'Error marking notification as read' };
     }
   }
-
 }
 

@@ -4,9 +4,12 @@ import './Notifications.css';
 
 const Notifications = ({ username }) => {
   const [notifications, setNotifications] = useState([]);
+  const [lastNotificationCount, setLastNotificationCount] = useState(0);
 
   useEffect(() => {
     fetchNotifications();
+    const interval = setInterval(fetchNotifications, 60000);
+    return () => clearInterval(interval);
   }, []);
 
   const fetchNotifications = async () => {

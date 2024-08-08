@@ -6,6 +6,7 @@ import Chart from 'chart.js/auto';
 import './CirclePage.css';
 import Notifications from './Notifications';
 import { logout } from './authService';
+import { Link } from 'react-router-dom';
 
 Modal.setAppElement('#root');
 
@@ -177,6 +178,9 @@ const CirclePage = () => {
   return (
     <div className="circle-detail-container">
       <button className='log-out-button' onClick={logout}>Log out</button>
+      <Link to="/interest-circles">
+            <button>Back To Interest Circles</button>
+      </Link>
       {circle && (
         <>
           <h2>{circle.name}</h2>
@@ -205,10 +209,13 @@ const CirclePage = () => {
         {posts.map((post) => (
           <div key={post._id} className="post">
             <div className='post-content'>
-              {post.image && <img className = 'post-image' src={`http://localhost:7001${post.image}`} alt="Post" />}
+      
+              {post.image!= '/public/uploads/images/' && post.image &&<img className = 'post-image' src={`http://localhost:7001${post.image}`} alt="Post" />}
+
               <div>
                 <p>{post.content}</p>
                 <p>Posted by {post.username} on {new Date(post.createdAt).toLocaleDateString()}</p>
+    
                 <div className="comments-section">
                   {post.comments.map((comment, index) => (
                     <div key={index} className="comment">
@@ -228,6 +235,7 @@ const CirclePage = () => {
                   />
                 </div>
               </div>
+            
             </div>
           </div>
         ))}

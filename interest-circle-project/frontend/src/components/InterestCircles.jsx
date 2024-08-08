@@ -23,7 +23,7 @@ const InterestCircles = () => {
 
   const fetchCircles = async () => {
     try {
-      const response = await axios.get(`http://localhost:7001/api/circles?page=${page}&limit=10`);
+      const response = await axios.get(`http://localhost:7001/api/circles?page=${page}&limit=4`);
       console.log('Fetched circles:', response.data);
       if (response.data && Array.isArray(response.data.circles)) {
         setCircles(response.data.circles);
@@ -99,9 +99,8 @@ const InterestCircles = () => {
   return (
     <div className="interest-circles-container">
       <button className='log-out-button' onClick={logout}>Log out</button>
-      <h2 className="title">Hi {username}, welcome to Interest Circles!</h2>
+      <h2 className="title">Hi {username}, Welcome to Interest Circles!</h2>
       <button className='add-button' onClick={() => setModalIsOpen(true) }>Create Your Circle</button>
-      
       <div className="input-group">
         <input
           type="text"

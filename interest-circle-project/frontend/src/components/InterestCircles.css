@@ -15,11 +15,39 @@
     text-align: center;
     margin: 0;
   }
+
+  .log-out-button {
+    border-radius: 5px;
+    border: 0;
+    padding: 10px;
+    color: black;
+    background-color: rgba(245, 229, 232, 0.833);
+    cursor: pointer;
+   }
+
+   .log-out-button:hover {
+    background-color: hsla(349, 44%, 93%, 0.641);
+   }
   
+   .add-button {
+    background-color: #d26ce1;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-bottom: 40px;
+    font-size: 1rem;
+    }
+
+    .add-button:hover {
+        background-color: #d16ce1c9
+    }
   
-  .input-group {
+    .input-group {
     margin-bottom: 20px;
-  }
+    }
   
   input[type="text"], input[type="file"] {
     display: block;
@@ -30,6 +58,7 @@
     border: 0;
   }
 
+
 .search-button {
     background-color: #4a6de2;
     color: white;
@@ -39,28 +68,12 @@
     cursor: pointer;
     transition: background-color 0.3s;
     font-size: 1rem;
+    margin-top: 10px;
   }
 
 .search-button:hover {
     background-color: #4a6de2b9
   }
-
-.add-button {
-    background-color: #d26ce1;
-    color: white;
-    padding: 12px 24px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin-bottom: 40px;
-    font-size: 1rem;
-}
-
-.add-button:hover {
-    background-color: #d16ce1c9
-}
-  
   
   .modal {
     position: absolute;
@@ -137,7 +150,7 @@
   }
 
   .circle-card {
-    background: white;
+    background: hsla(0, 0%, 100%, 0.917);
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     overflow: hidden;
@@ -198,3 +211,4 @@
     background-color: hsl(0, 0%, 100%);
     cursor: pointer;
    }
+

@@ -93,6 +93,19 @@
     margin-right: 20px;
     object-fit: contain; 
   }
+
+  .log-out-button {
+    border-radius: 5px;
+    border: 0;
+    padding: 10px;
+    color: black;
+    background-color: rgba(245, 229, 232, 0.833);
+    cursor: pointer;
+   }
+
+   .log-out-button:hover {
+    background-color: hsla(349, 44%, 93%, 0.641);
+   }
   
 
   
