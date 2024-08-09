@@ -1,7 +1,7 @@
 {
   "compileOnSave": true,
   "compilerOptions": {
-    "target": "es2018",
+    "target": "ES6",
     "module": "commonjs",
     "moduleResolution": "node",
     "experimentalDecorators": true,
@@ -18,14 +18,9 @@
       "node_modules/@types",
       "node_modules/@typegoose"
     ],
-    "outDir": "dist",
-    "rootDir": "src"
+    "outDir": "./dist",
+    "rootDir": "./src"
   },
-  "exclude": [
-    "*.js",
-    "*.ts",
-    "dist",
-    "node_modules",
-    "test"
-  ]
+  "include": ["src/**/*.ts"],
+  "exclude": ["node_modules"]
 }
