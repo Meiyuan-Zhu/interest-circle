@@ -1,6 +1,7 @@
 import { createApp, close, createHttpRequest } from '@midwayjs/mock';
 import { Framework } from '@midwayjs/koa';
 import { expect } from '@jest/globals';
+import mongoose from 'mongoose';
 
 describe('test/controller/user.controller.ts', () => {
 
@@ -10,6 +11,7 @@ describe('test/controller/user.controller.ts', () => {
   });
 
   afterAll(async () => {
+    await mongoose.connection.close();
     await close(app);
   });
 
