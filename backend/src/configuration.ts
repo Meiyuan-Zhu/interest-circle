@@ -7,8 +7,6 @@ import * as cors from '@koa/cors';
 import * as staticFile from '@midwayjs/static-file';
 
 
-
-
 @Configuration({
   imports: [
     koa,

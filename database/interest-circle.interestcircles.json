@@ -1,0 +1,60 @@
+[{
+  "_id": {
+    "$oid": "66b391e2ce057b7a06997e31"
+  },
+  "name": "Travel in Canada",
+  "description": "Share travel experiences in Canada",
+  "createdBy": "test2",
+  "createdAt": {
+    "$date": "2024-08-07T15:25:22.441Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66b42c747c0e91892ee6d20a"
+  },
+  "name": "GEM 邓紫棋",
+  "description": "解解就是最棒的！！！",
+  "createdBy": "Cattty",
+  "createdAt": {
+    "$date": "2024-08-08T02:24:52.349Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66b42cfa7c0e91892ee6d215"
+  },
+  "name": "运动",
+  "description": "运动打卡+经验分享",
+  "createdBy": "Squirrel",
+  "createdAt": {
+    "$date": "2024-08-08T02:27:06.949Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66b42d987c0e91892ee6d221"
+  },
+  "name": "新兰永恒💗",
+  "description": "新兰党新兰党新兰党❤️",
+  "createdBy": "Cattty",
+  "createdAt": {
+    "$date": "2024-08-08T02:29:44.075Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66b42dfb7c0e91892ee6d22c"
+  },
+  "name": "呢喃",
+  "description": "今天南哪💊了吗",
+  "createdBy": "test2",
+  "createdAt": {
+    "$date": "2024-08-08T02:31:23.503Z"
+  },
+  "__v": 0
+}]

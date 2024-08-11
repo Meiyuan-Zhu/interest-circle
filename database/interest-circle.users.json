@@ -1,0 +1,131 @@
+[{
+  "_id": {
+    "$oid": "66b1288f98f9172cbccb9f2a"
+  },
+  "username": "testuser",
+  "password": "test123"
+},
+{
+  "_id": {
+    "$oid": "66b1331e60bae83b9070fcbc"
+  },
+  "username": "test",
+  "password": "$2a$10$dckTM/GTAuWJZqX6Ffb9AO3h8YHO8ngsCyRYXNdIBT5.1M5SwfP8u",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66b1331e60bae83b9070fcbf"
+  },
+  "username": "test2",
+  "password": "$2a$10$3zFkUYzv2w9NTk8vhKyW7u8FlzuE7Yf8K5xMabX1B1hhisjTCzhFK",
+  "__v": 3,
+  "notifications": [
+    {
+      "postId": {
+        "$oid": "66b39c1fce057b7a06997e6c"
+      },
+      "message": "test2 commented on your post.",
+      "read": true,
+      "createdAt": {
+        "$date": "2024-08-08T00:37:54.959Z"
+      },
+      "_id": {
+        "$oid": "66b413620121b114221a9a19"
+      }
+    },
+    {
+      "postId": {
+        "$oid": "66b39c1fce057b7a06997e6c"
+      },
+      "message": "Cattty commented on your post.",
+      "read": true,
+      "createdAt": {
+        "$date": "2024-08-08T00:38:39.066Z"
+      },
+      "_id": {
+        "$oid": "66b4138f0121b114221a9a4c"
+      }
+    },
+    {
+      "postId": {
+        "$oid": "66b39203ce057b7a06997e39"
+      },
+      "message": "test2 commented on your post.",
+      "read": true,
+      "createdAt": {
+        "$date": "2024-08-08T02:32:27.211Z"
+      },
+      "_id": {
+        "$oid": "66b42e3b7c0e91892ee6d26f"
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "66b197b3ccfa7f0634e61f48"
+  },
+  "username": "text2",
+  "password": "$2a$10$x.UOPJlWtKvmkjlRLblDpuWxNNiYgPa91AN7VPI4e5XDyJyRg0IJK",
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "66b3be61705d4f62c74c3469"
+  },
+  "username": "Cattty",
+  "password": "$2a$10$oiLdEdu0KqcIlLj5qVTFiepxlu7RXYdTUhjhmxgOynKjkaQKShsMW",
+  "__v": 2,
+  "notifications": [
+    {
+      "postId": {
+        "$oid": "66b42a477c0e91892ee6d189"
+      },
+      "message": "Cattty commented on your post.",
+      "read": true,
+      "createdAt": {
+        "$date": "2024-08-08T14:18:29.933Z"
+      },
+      "_id": {
+        "$oid": "66b4d3b55804a1deddd47d01"
+      }
+    },
+    {
+      "postId": {
+        "$oid": "66b4e0f6c98c8df9b8a87e8c"
+      },
+      "message": "test2 commented on your post.",
+      "read": true,
+      "createdAt": {
+        "$date": "2024-08-09T14:40:13.427Z"
+      },
+      "_id": {
+        "$oid": "66b62a4dde0f4521d8076983"
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "66b42cea7c0e91892ee6d20f"
+  },
+  "username": "Squirrel",
+  "password": "$2a$10$i6xqFcVnFK5J/D8qqXAK2ebPB6PeNHDszGaW1aKvMUWu7hfkcT4/6",
+  "notifications": [
+    {
+      "postId": {
+        "$oid": "66b4de075804a1deddd47ee1"
+      },
+      "message": "Cattty commented on your post.",
+      "read": false,
+      "createdAt": {
+        "$date": "2024-08-11T22:43:44.925Z"
+      },
+      "_id": {
+        "$oid": "66b93ea0d212dbe78ad2b4ec"
+      }
+    }
+  ],
+  "__v": 1
+}]
